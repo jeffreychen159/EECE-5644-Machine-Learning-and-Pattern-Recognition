@@ -25,7 +25,11 @@ title('Data and their true labels'),
 xlabel('x_1'), ylabel('x_2'), 
 hold off; 
 
-% Taken from LDAwithROCcurve with minor tweaks
+for i = 1:N
+    
+
+
+% Taken from LDAwithROCcurve
 function [Pfp,Ptp,Perror,thresholdList] = ROCcurve(discriminantScores,labels)
 [sortedScores,~] = sort(discriminantScores,'ascend');
 thresholdList = [min(sortedScores)-eps,(sortedScores(1:end-1)+sortedScores(2:end))/2, max(sortedScores)+eps];
@@ -40,13 +44,12 @@ end
 end
 
 % ROC Curve
-g1 = evalGaussian(x,mu(:,1),sigma(:,:,1)); 
-g2 = evalGaussian(x,mu(:,2),sigma(:,:,2));
+g1 = evalGaussian(x,mu(:,1),sigma(:,:,1)); g2 = evalGaussian(x,mu(:,2),sigma(:,:,2));
 discriminantScoresERM = log(g2./g1);
 figure(2),
 [PfpERM,PtpERM,PerrorERM,thresholdListERM] = ROCcurve(discriminantScoresERM,label);
 
-% Getting Gamma Experimental and Theoretical 
+% Getting Gamma Experimental and Theoretical
 % Typing to Console
 gamma_theoretical = 0.35/0.65; % Theoretical P(L=0) / P(L=1)
 gamma_theoretical, 
@@ -73,11 +76,10 @@ Perror_theoretical,
 Perror_experimental = min(PerrorERM); 
 Perror_experimental, 
 
-perror_index = find(min(PerrorERM));
 % Plotting ROC Curve
 hold on, plot(PfpERM,PtpERM,'*m'),
 hold on, plot(thy_lambda_0,thy_lambda_1,"*b"), 
 xlabel('P(False+)'),ylabel('P(True+)'), title('ROC Curve'),
 
-writematrix(x,'samples_1a.csv');
-writematrix(label,'samples_1a.csv','WriteMode','append');
+%writematrix(x,'samples_1a.csv');
+%writematrix(label,'samples_1a.csv','WriteMode','append');
