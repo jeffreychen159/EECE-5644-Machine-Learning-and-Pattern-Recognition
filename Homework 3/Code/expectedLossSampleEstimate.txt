@@ -1,0 +1,9 @@
+lossMatrix = ones(C,C)-eye(C); % For min-Perror design, use 0-1 loss
+for d = 1:C % each decision option
+    for l = 1:C % each class label
+        ind_dl = find(decisions==d & labels==l);
+        confusionMatrix(d,l) = length(ind_dl)/length(find(labels==l));
+    end
+end
+averageLoss = sum((lossMatrix.*confusionMatrix)*classPriors),
+% averageLoss estimated based on sample estimates of confusionMatrix and classPriors is a sample estimate of expectedLoss
